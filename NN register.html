@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dbf2f7 0%, #88d4e3 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #000000;
+        }
+
+        .registration-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid #ded3cb;
+        }
+
+        .registration-container h2 {
+            margin-bottom: 30px;
+            color: #004963;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #004963;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ded3cb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #88d4e3;
+            box-shadow: 0 0 8px rgba(136, 212, 227, 0.5);
+        }
+
+        .form-group input:invalid,
+        .form-group select:invalid,
+        .form-group textarea:invalid {
+            border-color: #ff6b6b;
+        }
+
+        .contact-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .contact-group select {
+            flex: 0 0 120px;
+        }
+
+        .contact-group input {
+            flex: 1;
+        }
+
+        .name-reminder,
+        .age-reminder {
+            font-size: 12px;
+            color: #004963;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #004963 0%, #88d4e3 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 73, 99, 0.3);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .registration-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            .contact-group {
+                flex-direction: column;
+            }
+            .contact-group select {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" maxlength="16" required>
+                <div class="name-reminder">Full name must be 16 characters max.</div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" maxlength="16" required>
+                <div class="name-reminder">Last name must be 16 characters max.</div>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday" name="birthday" required>
+                <div class="age-reminder">You must be 18 years or older to register.</div>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <div class="contact-group">
+                    <select id="countryCode" name="countryCode" required>
+                        <option value="+1">+1 (USA)</option>
+                        <option value="+44">+44 (UK)</option>
+                        <option value="+91">+91 (India)</option>
+                        <option value="+81">+81 (Japan)</option>
+                        <option value="+49">+49 (Germany)</option>
+                        <!-- Add more country codes as needed -->
+                    </select>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone number" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="homeAddress">Home Address</label>
+                <textarea id="homeAddress" name="homeAddress" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="register-btn">Register</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const birthday = document.getElementById('birthday').value;
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const homeAddress = document.getElementById('homeAddress').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+            
+            // Check if fields are not null/empty
+            if (!fullName || !lastName || !birthday || !phoneNumber || !homeAddress) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Full name length check (max 16)
+            if (fullName.length > 16) {
+                errorMessage.textContent = 'Full name must be 16 characters max.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Last name length check (max 16)
+            if (lastName.length > 16) {
+                errorMessage.textContent = 'Last name must be 16 characters max.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Age validation (18+)
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 18) {
+                errorMessage.textContent = 'You must be 18 years or older to register.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Basic phone number validation (digits only, reasonable length)
+            const phoneRegex = /^\d{7,15}$/;
+            if (!phoneRegex.test(phoneNumber)) {
+                errorMessage.textContent = 'Please enter a valid phone number (7-15 digits).';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // If all validations pass, simulate registration (in a real app, send to server)
+            alert('Registration successful! (This is a demo)');
+        });
+    </script>
+</body>
+</html>

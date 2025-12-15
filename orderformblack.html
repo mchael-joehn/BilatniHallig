@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Car Order Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dbf2f7 0%, #88d4e3 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #000000;
+        }
+
+        .order-container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            border: 1px solid #ded3cb;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .order-container h2 {
+            margin-bottom: 40px;
+            color: #004963;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #004963 0%, #88d4e3 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 73, 99, 0.3);
+        }
+
+        .items-section {
+            text-align: left;
+            margin-bottom: 30px;
+            display: none; /* Initially hidden */
+            max-height: 400px; /* Limit height for scroll if needed */
+            overflow-y: auto;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* Reduced from 20px */
+            padding: 10px; /* Reduced from 20px */
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ded3cb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.1);
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h3 {
+            margin: 0 0 5px 0; /* Reduced margin */
+            color: #004963;
+            font-size: 16px; /* Slightly smaller */
+            font-weight: 600;
+        }
+
+        .item-details p {
+            margin: 0 0 5px 0; /* Reduced margin */
+            color: #000000;
+            font-size: 13px; /* Slightly smaller */
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #004963;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+
+        .quantity-input {
+            width: 70px; /* Slightly smaller */
+            padding: 6px;
+            border: 2px solid #ded3cb;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .quantity-input:focus {
+            outline: none;
+            border-color: #88d4e3;
+        }
+
+        .summary-section {
+            background: #f0f8ff;
+            padding: 20px; /* Reduced padding */
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #ded3cb;
+        }
+
+        .summary-section h3 {
+            margin-bottom: 15px; /* Reduced */
+            color: #004963;
+            font-size: 22px; /* Slightly smaller */
+            font-weight: 600;
+        }
+
+        .total-display {
+            font-size: 18px; /* Slightly smaller */
+            font-weight: 700;
+            color: #004963;
+            margin-bottom: 15px; /* Reduced */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Reduced */
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px; /* Reduced */
+            color: #004963;
+            font-weight: 500;
+            font-size: 15px; /* Slightly smaller */
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px; /* Reduced */
+            border: 2px solid #ded3cb;
+            border-radius: 8px;
+            font-size: 15px; /* Slightly smaller */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #88d4e3;
+            box-shadow: 0 0 8px rgba(136, 212, 227, 0.5);
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #004963 0%, #88d4e3 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px; /* Slightly smaller */
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 15px; /* Reduced */
+        }
+
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 73, 99, 0.3);
+        }
+
+        .order-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .order-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .item-price {
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="order-container">
+        <h2>Car Parts Order Form</h2>
+        <button class="toggle-btn" id="toggleItemsBtn">Show Items</button>
+        <form id="orderForm">
+            <div class="items-section" id="itemsSection">
+                <!-- Item 1 -->
+                <div class="item">
+                    <input type="checkbox" id="item1" name="item1" data-price="150">
+                    <div class="item-details">
+                        <h3>Premium Tires</h3>
+                        <p>High-performance all-season tires designed for superior grip and durability on various road conditions. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$150</span>
+                    <input type="number" class="quantity-input" id="qty1" name="qty1" min="1" max="10" value="1" disabled>
+                </div>
+                <!-- Item 2 -->
+                <div class="item">
+                    <input type="checkbox" id="item2" name="item2" data-price="80">
+                    <div class="item-details">
+                        <h3>Engine Oil</h3>
+                        <p>Synthetic motor oil that reduces friction and wear, ensuring optimal engine performance and longevity. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$80</span>
+                    <input type="number" class="quantity-input" id="qty2" name="qty2" min="1" max="5" value="1" disabled>
+                </div>
+                <!-- Item 3 -->
+                <div class="item">
+                    <input type="checkbox" id="item3" name="item3" data-price="200">
+                    <div class="item-details">
+                        <h3>Brake Pads</h3>
+                        <p>Ceramic brake pads offering excellent stopping power and reduced noise for safer driving. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$200</span>
+                    <input type="number" class="quantity-input" id="qty3" name="qty3" min="1" max="4" value="1" disabled>
+                </div>
+                <!-- Item 4 -->
+                <div class="item">
+                    <input type="checkbox" id="item4" name="item4" data-price="120">
+                    <div class="item-details">
+                        <h3>Air Filter</h3>
+                        <p>High-efficiency air filter that improves engine airflow and protects against contaminants. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$120</span>
+                    <input type="number" class="quantity-input" id="qty4" name="qty4" min="1" max="3" value="1" disabled>
+                </div>
+                <!-- Item 5 -->
+                <div class="item">
+                    <input type="checkbox" id="item5" name="item5" data-price="90">
+                    <div class="item-details">
+                        <h3>Battery</h3>
+                        <p>Reliable car battery with long-lasting power and quick start capabilities. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$90</span>
+                    <input type="number" class="quantity-input" id="qty5" name="qty5" min="1" max="2" value="1" disabled>
+                </div>
+                <!-- Item 6 -->
+                <div class="item">
+                    <input type="checkbox" id="item6" name="item6" data-price="250">
+                    <div class="item-details">
+                        <h3>Spark Plugs</h3>
+                        <p>Premium spark plugs for efficient combustion and improved fuel economy. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$250</span>
+                    <input type="number" class="quantity-input" id="qty6" name="qty6" min="1" max="8" value="1" disabled>
+                </div>
+                <!-- Item 7 -->
+                <div class="item">
+                    <input type="checkbox" id="item7" name="item7" data-price="180">
+                    <div class="item-details">
+                        <h3>Windshield Wipers</h3>
+                        <p>Advanced wipers that provide clear visibility in all weather conditions. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$180</span>
+                    <input type="number" class="quantity-input" id="qty7" name="qty7" min="1" max="4" value="1" disabled>
+                </div>
+                <!-- Item 8 -->
+                <div class="item">
+                    <input type="checkbox" id="item8" name="item8" data-price="300">
+                    <div class="item-details">
+                        <h3>Exhaust System</h3>
+                        <p>Complete exhaust system for better performance and reduced emissions. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$300</span>
+                    <input type="number" class="quantity-input" id="qty8" name="qty8" min="1" max="1" value="1" disabled>
+                </div>
+                <!-- Item 9 -->
+                <div class="item">
+                    <input type="checkbox" id="item9" name="item9" data-price="140">
+                    <div class="item-details">
+                        <h3>Coolant</h3>
+                        <p>Antifreeze coolant to regulate engine temperature and prevent overheating. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$140</span>
+                    <input type="number" class="quantity-input" id="qty9" name="qty9" min="1" max="5" value="1" disabled>
+                </div>
+                <!-- Item 10 -->
+                <div class="item">
+                    <input type="checkbox" id="item10" name="item10" data-price="220">
+                    <div class="item-details">
+                        <h3>Transmission Fluid</h3>
+                        <p>High-quality fluid for smooth gear shifts and extended transmission life. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$220</span>
+                    <input type="number" class="quantity-input" id="qty10" name="qty10" min="1" max="3" value="1" disabled>
+                </div>
+                <!-- Item 11 -->
+                <div class="item">
+                    <input type="checkbox" id="item11" name="item11" data-price="160">
+                    <div class="item-details">
+                        <h3>Fuel Pump</h3>
+                        <p>Efficient fuel pump for reliable fuel delivery and engine performance. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$160</span>
+                    <input type="number" class="quantity-input" id="qty11" name="qty11" min="1" max="2" value="1" disabled>
+                </div>
+                <!-- Item 12 -->
+                <div class="item">
+                    <input type="checkbox" id="item12" name="item12" data-price="190">
+                    <div class="item-details">
+                        <h3>Radiator</h3>
+                        <p>Aluminum radiator for effective heat dissipation and cooling. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$190</span>
+                    <input type="number" class="quantity-input" id="qty12" name="qty12" min="1" max="1" value="1" disabled>
+                </div>
+                <!-- Item 13 -->
+                <div class="item">
+                    <input type="checkbox" id="item13" name="item13" data-price="130">
+                    <div class="item-details">
+                        <h3>Alternator</h3>
+                        <p>Powerful alternator to charge the battery and power electrical systems. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$130</span>
+                    <input type="number" class="quantity-input" id="qty13" name="qty13" min="1" max="1" value="1" disabled>
+                </div>
+                <!-- Item 14 -->
+                <div class="item">
+                    <input type="checkbox" id="item14" name="item14" data-price="170">
+                    <div class="item-details">
+                        <h3>Shock Absorbers</h3>
+                        <p>Premium shocks for a smoother ride and better handling. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$170</span>
+                    <input type="number" class="quantity-input" id="qty14" name="qty14" min="1" max="4" value="1" disabled>
+                </div>
+                <!-- Item 15 -->
+                <div class="item">
+                    <input type="checkbox" id="item15" name="item15" data-price="210">
+                    <div class="item-details">
+                        <h3>Headlights</h3>
+                        <p>LED headlights for enhanced visibility and modern styling. Not null description provided.</p>
+                    </div>
+                    <span class="item-price">$210</span>
+                    <input type="number" class="quantity-input" id="qty15" name="qty15" min="1" max="2" value="1" disabled>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3>Order Summary</h3>
+                <div class="total-display">Total: $<span id="totalAmount">0.00</span></div>
+            </div>
+
+            <div class="form-group">
+                <label for="deliveryDate">Delivery Date</label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required>
+            </div>
+
+            <button type="submit" class="order-btn">Place Order</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        // Toggle items visibility
+        const toggleBtn = document.getElementById('toggleItemsBtn');
+        const itemsSection = document.getElementById('itemsSection');
+        toggleBtn.addEventListener('click', function() {
+            if (itemsSection.style.display === 'none' || itemsSection.style.display === '') {
+                itemsSection.style.display = 'block';
+                toggleBtn.textContent = 'Hide Items';
+            } else {
+                itemsSection.style.display = 'none';
+                toggleBtn.textContent = 'Show Items';
+            }
+        });
+
+        // Enable/disable quantity inputs based on checkbox
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox, index) => {
+            const qtyInput = document.getElementById(`qty${index + 1}`);
+            checkbox.addEventListener('change', function() {
+                qtyInput.disabled = !this.checked;
+                if (!this.checked) qtyInput.value = 1;
+                calculateTotal();
+            });
+            qtyInput.addEventListener('input', calculateTotal);
+        });
+
+        function calculateTotal() {
+            let total = 0;
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    const price = parseFloat(checkbox.dataset.price);
+                    const qty = parseInt(document.get

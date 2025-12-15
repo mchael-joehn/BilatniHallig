@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form - Car Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #dbf2f7;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1000px;
+        }
+        h1 {
+            text-align: center;
+            color: #004963;
+        }
+        .order-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .order-item {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-item h3 {
+            color: #004963;
+        }
+        .item-description {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .quantity input {
+            width: 50px;
+            padding: 5px;
+            margin-left: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .quantity span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .item-price {
+            color: #88d4e3;
+            font-size: 16px;
+        }
+        .total {
+            font-size: 18px;
+            color: #004963;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .submit-btn {
+            background-color: #004963;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #003f4d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Car Product Order Form</h1>
+        <form class="order-form" id="orderForm">
+            <!-- Order Items -->
+            <div class="order-item">
+                <h3>Leather Seat Covers</h3>
+                <p class="item-description">Premium leather seat covers designed for comfort and style.</p>
+                <div class="quantity">
+                    <label for="leather-seat-quantity">Quantity:</label>
+                    <input type="number" id="leather-seat-quantity" name="leather-seat-quantity" value="1" min="1">
+                    <span class="item-price">$199.99</span>
+                </div>
+            </div>
+
+            <div class="order-item">
+                <h3>All-Weather Floor Mats</h3>
+                <p class="item-description">Durable, waterproof floor mats to protect your car from dirt and spills.</p>
+                <div class="quantity">
+                    <label for="floor-mats-quantity">Quantity:</label>
+                    <input type="number" id="floor-mats-quantity" name="floor-mats-quantity" value="1" min="1">
+                    <span class="item-price">$79.99</span>
+                </div>
+            </div>
+
+            <div class="order-item">
+                <h3>Car Wax Kit</h3>
+                <p class="item-description">Everything you need for a glossy, showroom-quality finish.</p>
+                <div class="quantity">
+                    <label for="car-wax-quantity">Quantity:</label>
+                    <input type="number" id="car-wax-quantity" name="car-wax-quantity" value="1" min="1">
+                    <span class="item-price">$29.99</span>
+                </div>
+            </div>
+
+            <div class="order-item">
+                <h3>High Performance Tires</h3>
+                <p class="item-description">All-season tires for superior grip and longevity.</p>
+                <div class="quantity">
+                    <label for="tires-quantity">Quantity:</label>
+                    <input type="number" id="tires-quantity" name="tires-quantity" value="2" min="1">
+                    <span class="item-price">$129.99</span>
+                </div>
+            </div>
+
+            <div class="order-item">
+                <h3>LED Headlights</h3>
+                <p class="item-description">Bright and energy-efficient LED headlights for enhanced visibility.</p>
+                <div class="quantity">
+                    <label for="headlights-quantity">Quantity:</label>
+                    <input type="number" id="headlights-quantity" name="headlights-quantity" value="1" min="1">
+                    <span class="item-price">$89.99</span>
+                </div>
+            </div>
+
+            <!-- Add more items here, similar to the above... -->
+
+            <!-- Total Calculation and Submission -->
+            <div class="total">
+                <p>Total: $<span id="totalAmount">0.00</span></p>
+            </div>
+            <button type="submit" class="submit-btn">Place Order</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to calculate total amount
+        const updateTotal = () => {
+            let totalAmount = 0;
+            const items = [
+                { price: 199.99, quantityId: "leather-seat-quantity" },
+                { price: 79.99, quantityId: "floor-mats-quantity" },
+                { price: 29.99, quantityId: "car-wax-quantity" },
+                { price: 129.99, quantityId: "tires-quantity" },
+                { price: 89.99, quantityId: "headlights-quantity" }
+            ];
+
+            items.forEach(item => {
+                const quantity = parseInt(document.getElementById(item.quantityId).value) || 0;
+                totalAmount += item.price * quantity;
+            });
+
+            document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
+        };
+
+        // Attach event listeners
+        const orderForm = document.getElementById("orderForm");
+        orderForm.addEventListener("input", updateTotal);
+
+        // Initialize total on page load
+        window.onload = updateTotal;
+
+        // Form validation before submitting
+        orderForm.addEventListener("submit", function (event) {
+            let isValid = true;
+            const formData = new FormData(orderForm);
+
+            formData.forEach((value, key) => {
+                if (!value || value <= 0) {
+                    isValid = false;
+                    alert(`Please enter a valid quantity for ${key}`);
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if invalid
+            }
+        });
+    </script>
+
+</body>
+</html>

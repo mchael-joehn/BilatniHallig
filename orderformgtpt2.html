@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .product-selection {
+            width: 50%;
+            padding-right: 20px;
+        }
+        .product-item {
+            display: inline-block;
+            width: 48%;
+            margin: 10px 1%;
+            background-color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-item h3 {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+        }
+        .product-item p {
+            font-size: 14px;
+            color: #555;
+        }
+        .product-item select,
+        .product-item input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .order-summary {
+            width: 40%;
+            background-color: #004963;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .order-summary h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .order-summary select,
+        .order-summary input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .order-summary .total-price {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #88d4e3;
+            font-weight: bold;
+        }
+        .submit-btn {
+            background-color: #f79c42;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #f29c35;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Product Selection Section -->
+        <div class="product-selection">
+            <h2>Select your Cupcakes</h2>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Carrot+Cupcake" alt="Carrot Cupcake">
+                <h3>Carrot Cupcake</h3>
+                <p>$6.00</p>
+                <select id="carrot-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="carrot-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="carrot-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Mocha+Cupcake" alt="Mocha Cupcake">
+                <h3>Mocha Cupcake</h3>
+                <p>$4.00</p>
+                <select id="mocha-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="mocha-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="mocha-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p>You selected:</p>
+            <div id="order-summary-items">
+                <!-- Order items will be populated here -->
+            </div>
+
+            <div class="total-price">
+                <p>Total Price: $<span id="total-price">0.00</span></p>
+            </div>
+
+            <form>
+                <input type="text" id="name" placeholder="Name" required><br>
+                <input type="email" id="email" placeholder="Email Address" required><br>
+                <input type="text" id="address" placeholder="Street Address" required><br>
+                <input type="text" id="city" placeholder="City" required><br>
+                <input type="text" id="state" placeholder="State" required><br>
+                <input type="text" id="country" placeholder="Country" required><br>
+                <textarea id="message" placeholder="Message/Suggestions" rows="4"></textarea><br>
+                <button type="button" class="submit-btn" onclick="submitOrder()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate total price and update order summary
+        function updateOrderSummary() {
+            const carrotQuantity = parseInt(document.getElementById('carrot-quantity').value) || 0;
+            const mochaQuantity = parseInt(document.getElementById('mocha-quantity').value) || 0;
+
+            const carrotPrice = 6.00;
+            const mochaPrice = 4.00;
+
+            let totalPrice = (carrotQuantity * carrotPrice) + (mochaQuantity * mochaPrice);
+
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+
+            const orderSummaryItems = `
+                <p>Carrot Cupcake: $${carrotPrice.toFixed(2)} x ${carrotQuantity} = $${(carrotPrice * carrotQuantity).toFixed(2)}</p>
+                <p>Mocha Cupcake: $${mochaPrice.toFixed(2)} x ${mochaQuantity} = $${(mochaPrice * mochaQuantity).toFixed(2)}</p>
+            `;
+
+            document.getElementById('order-summary-items').innerHTML = orderSummaryItems;
+        }
+
+        // Update the order summary when quantity or size/style changes
+        document.getElementById('carrot-quantity').addEventListener('input', updateOrderSummary);
+        document.getElementById('mocha-quantity').addEventListener('input', updateOrderSummary);
+
+        // Submit function (Simple alert for now)
+        function submitOrder() {
+            alert('Your order has been submitted successfully!');
+        }
+
+        // Initial call to populate summary
+        window.onload = updateOrderSummary;
+    </script>
+
+</body>
+</html>
