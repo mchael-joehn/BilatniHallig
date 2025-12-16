@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Order Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f9f9f9 0%, #e7b307 50%, #ffc300 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #bf0f1e;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            background-color: #f9f9f9;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(191, 15, 30, 0.15), 0 0 20px rgba(221, 19, 36, 0.1);
+            padding: 30px;
+            border: 2px solid #dd1324;
+            position: relative;
+            overflow: hidden;
+            gap: 30px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #bf0f1e, #dd1324, #e7b307, #ffc300);
+        }
+
+        .product-selection {
+            width: 65%;
+            padding-right: 20px;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .product-selection h2 {
+            color: #bf0f1e;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            background-color: #ffffff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(191, 15, 30, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e7b307;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(191, 15, 30, 0.2);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-item h3 {
+            font-size: 20px;
+            margin: 15px 0 10px;
+            color: #dd1324;
+            font-weight: 600;
+        }
+
+        .product-item .description {
+            font-size: 14px;
+            color: #bf0f1e;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .product-item p.price {
+            font-size: 16px;
+            color: #e7b307;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-item select,
+        .product-item input {
+            margin: 8px 0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #e7b307;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #bf0f1e;
+        }
+
+        .product-item select:focus,
+        .product-item input:focus {
+            outline: none;
+            border-color: #dd1324;
+            box-shadow: 0 0 8px rgba(221, 19, 36, 0.4);
+        }
+
+        .product-item .standard-phrase {
+            font-size: 12px;
+            color: #ffc300;
+            font-style: italic;
+            margin-top: auto;
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #e7b307;
+        }
+
+        .order-summary {
+            width: 35%;
+            background-color: #ffffff;
+            color: #bf0f1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(191, 15, 30, 0.1);
+            border: 2px solid #dd1324;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            transition: box-shadow 0.3s ease; /* For flashing effect */
+        }
+
+        .order-summary.flash {
+            box-shadow: 0 8px 16px rgba(191, 15, 30, 0.1), 0 0 20px rgba(255, 195, 0, 0.8); /* Flash effect */
+        }
+
+        .order-summary h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #bf0f1e;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-summary p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .order-summary .item-summary {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 195, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid #e7b307;
+        }
+
+        .order-summary select,
+        .order-summary input,
+        .order-summary textarea {
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #e7b307;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #bf0f1e;
+        }
+
+        .order-summary select:focus,
+        .order-summary input:focus,
+        .order-summary textarea:focus {
+            outline: none;
+            border-color: #dd1324;
+            box-shadow: 0 0 8px rgba(221, 19, 36, 0.4);
+        }
+
+        .order-summary .total-price {
+            font-size: 22px;
+            margin: 20px 0;
+            color: #dd1324;
+            font-weight: bold;
+            text-align: center;
+            background-color: rgba(255, 195, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e7b307;
+        }
+
+        .delivery-estimate {
+            font-size: 14px;
+            color: #e7b307;
+            margin: 15px 0;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #bf0f1e 0%, #dd1324 100%);
+            color: #f9f9f9;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 195, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(191, 15, 30, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .product-selection {
+                width: 100%;
+                padding-right: 0;
+                max-height: none;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .order-summary {
+                width: 100%;
+                position: static;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 15px;
+            }
+            .product-selection h2,
+            .order-summary h2 {
+                font-size: 24px;
+            }
+            .product-item {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Selection Section -->
+        <div class="product-selection">
+            <h2>Select your Products</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\carrot cake.jpg" alt="Carrot Cupcake">
+                    <h3>Carrot Cupcake</h3>
+                    <p class="description">A moist and flavorful cupcake made with fresh carrots, topped with cream cheese frosting for a delightful treat.</p>
+                    <p class="price">$6.00</p>
+                    <select id="carrot-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="carrot-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="carrot-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\chocolate cc.jpg" alt="Chocolate Cupcake">
+                    <h3>Chocolate Cupcake</h3>
+                    <p class="description">Rich and decadent chocolate cupcake with a smooth chocolate ganache, perfect for chocolate lovers.</p>
+                    <p class="price">$5.50</p>
+                    <select id="chocolate-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="chocolate-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="chocolate-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\vanilla.jpg" alt="Vanilla Cupcake">
+                    <h3>Vanilla Cupcake</h3>
+                    <p class="description">Classic vanilla cupcake with a light and fluffy texture, topped with vanilla buttercream.</p>
+                    <p class="price">$4.00</p>
+                    <select id="vanilla-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="vanilla-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="vanilla-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\peach.jpg" alt="Peach Cupcake">
+                    <h3>Peach Cupcake</h3>
+                    <p class="description">Sweet peach-infused cupcake with a juicy peach filling and peach glaze for a summery flavor.</p>
+                    <p class="price">$5.00</p>
+                    <select id="peach-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="peach-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="peach-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\lemon.jpg" alt="Lemon Cupcake">
+                    <h3>Lemon Cupcake</h3>
+                    <p class="description">Tangy lemon cupcake with a zesty lemon curd center and lemon frosting for a refreshing bite.</p>
+                    <p class="price">$4.75</p>
+                    <select id="lemon-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="lemon-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="lemon-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\mint.jpg" alt="Mint Cupcake">
+                    <h3>Mint Cupcake</h3>
+                    <p class="description">Cool and refreshing mint cupcake with chocolate chips and mint frosting for a unique twist.</p>
+                    <p class="price">$6.00</p>
+                    <select id="mint-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="mint-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="mint-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-item">
+                    <img src="C:\Users\WS2\Downloads\peanut.jpg" alt="Peanut Butter Cupcake">
+                    <h3>Peanut Butter Cupcake</h3>
+                    <p class="description">Creamy peanut butter cupcake with a peanut butter filling and chocolate peanut butter frosting.</p>
+                    <p class="price">$5.75</p>
+                    <select id="peanut-butter-size">
+                        <option value="Regular">Regular</option>
+                        <option value="Mini">Mini</option>
+                    </select>
+                    <select id="peanut-butter-style">
+                        <option value="Frosted">Frosted</option>
+                        <option value="Plain">Plain</option>
+                    </select>
+                    <input type="number" id="peanut-butter-quantity" value="0" min="0" placeholder="Quantity">
+                    <p class="standard-phrase">The standard against which all others are measured.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="order-summary" id="order-summary">
+            <h2>Order Summary</h2>
+            <p>You selected:</p>
+            <div id="order-summary-items">
+                <!-- Order items will be populated here -->
+            </div>
+
+            <div class="total-price">
+                <p>Total Price: $<span id="total-price">0.00</span></p>
+            </div>
+
+            <div class="delivery-estimate">
+                Estimated Delivery: 3-5 business days. depende sa mood ko
+            </div>
+
+            <form>
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="text" id="address" placeholder="Street Address" required>
+                <input type="text" id="city" placeholder="City" required>
+                <input type="text" id="state" placeholder="State" required>
+                <input type="text" id="country" placeholder="Country" required>
+                <textarea id="message" placeholder="Message/Suggestions" rows="4"></textarea>
+                <a href="C:\Users\WS2\Downloads\end ticket.html" style="text-decoration: none;">
+                    <button type="button" class="submit-btn">Submit</button>
+                </a>
+                
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate total price and update order summary
+        function updateOrderSummary() {
+            let totalPrice = 0;
+            const items = [
+                { id: 'carrot', price: 6.00 },
+                { id: 'chocolate', price: 5.50 },
+                { id: 'vanilla', price: 4.00 },
+                { id: 'peach', price: 5.00 },
+                { id: 'lemon', price: 4.75 },
+                { id: 'mint', price: 6.00 },
+                { id: 'peanut-butter', price: 5.75 }
+            ];
+
+            let orderSummaryHtml = '';
+            
+            items.forEach(item => {
+                const quantity = parseInt(document.getElementById(item.id + '-quantity').value) || 0;
+                totalPrice += item.price * quantity;
+                orderSummaryHtml += `
+                    <p>${item.id.charAt(0).toUpperCase() + item.id.slice(1)} Cupcake: $${item.price.toFixed(2)} x ${quantity} = $${(item.price * quantity).toFixed(2)}</p>
+                `;
+            });
+
+            document.getElementById('order-summary-items').innerHTML = orderSummaryHtml;
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+        }
+
+        // Update the order summary when quantity changes
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateOrderSummary);
+        });
+
+        // Submit function (Simple alert for now)
+        function submitOrder() {
+            alert('Your order has been submitted successfully!');
+        }
+
+        // Initial call to populate summary
+        window.onload = updateOrderSummary;
+    </script>

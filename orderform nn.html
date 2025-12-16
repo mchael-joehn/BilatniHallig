@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .product-selection {
+            width: 60%;
+            padding-right: 20px;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+        .product-item {
+            display: inline-block;
+            width: 48%;
+            margin: 10px 1%;
+            background-color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-item h3 {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+        }
+        .product-item p {
+            font-size: 14px;
+            color: #555;
+        }
+        .product-item select,
+        .product-item input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .order-summary {
+            width: 35%;
+            background-color: #004963;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .order-summary h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .order-summary select,
+        .order-summary input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .order-summary .total-price {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #88d4e3;
+            font-weight: bold;
+        }
+        .submit-btn {
+            background-color: #f79c42;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #f29c35;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Product Selection Section -->
+        <div class="product-selection">
+            <h2>Select your Products</h2>
+
+            <!-- Product 1 to Product 15 -->
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Carrot+Cupcake" alt="Carrot Cupcake">
+                <h3>Carrot Cupcake</h3>
+                <p>$6.00</p>
+                <select id="carrot-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="carrot-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="carrot-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Chocolate+Cupcake" alt="Chocolate Cupcake">
+                <h3>Chocolate Cupcake</h3>
+                <p>$5.50</p>
+                <select id="chocolate-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="chocolate-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="chocolate-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Vanilla+Cupcake" alt="Vanilla Cupcake">
+                <h3>Vanilla Cupcake</h3>
+                <p>$4.00</p>
+                <select id="vanilla-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="vanilla-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="vanilla-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Peach+Cupcake" alt="Peach Cupcake">
+                <h3>Peach Cupcake</h3>
+                <p>$5.00</p>
+                <select id="peach-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="peach-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="peach-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Lemon+Cupcake" alt="Lemon Cupcake">
+                <h3>Lemon Cupcake</h3>
+                <p>$4.75</p>
+                <select id="lemon-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="lemon-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="lemon-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Mint+Cupcake" alt="Mint Cupcake">
+                <h3>Mint Cupcake</h3>
+                <p>$6.00</p>
+                <select id="mint-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="mint-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="mint-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <div class="product-item">
+                <img src="https://via.placeholder.com/150?text=Peanut+Butter+Cupcake" alt="Peanut Butter Cupcake">
+                <h3>Peanut Butter Cupcake</h3>
+                <p>$5.75</p>
+                <select id="peanut-butter-size">
+                    <option value="Regular">Regular</option>
+                    <option value="Mini">Mini</option>
+                </select>
+                <select id="peanut-butter-style">
+                    <option value="Frosted">Frosted</option>
+                    <option value="Plain">Plain</option>
+                </select>
+                <input type="number" id="peanut-butter-quantity" value="1" min="1" placeholder="Quantity">
+            </div>
+
+            <!-- You can continue adding more product items here -->
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p>You selected:</p>
+            <div id="order-summary-items">
+                <!-- Order items will be populated here -->
+            </div>
+
+            <div class="total-price">
+                <p>Total Price: $<span id="total-price">0.00</span></p>
+            </div>
+
+            <form>
+                <input type="text" id="name" placeholder="Name" required><br>
+                <input type="email" id="email" placeholder="Email Address" required><br>
+                <input type="text" id="address" placeholder="Street Address" required><br>
+                <input type="text" id="city" placeholder="City" required><br>
+                <input type="text" id="state" placeholder="State" required><br>
+                <input type="text" id="country" placeholder="Country" required><br>
+                <textarea id="message" placeholder="Message/Suggestions" rows="4"></textarea><br>
+                <button type="button" class="submit-btn" onclick="submitOrder()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate total price and update order summary
+        function updateOrderSummary() {
+            let totalPrice = 0;
+            const items = [
+                { id: 'carrot', price: 6.00 },
+                { id: 'chocolate', price: 5.50 },
+                { id: 'vanilla', price: 4.00 },
+                { id: 'peach', price: 5.00 },
+                { id: 'lemon', price: 4.75 },
+                { id: 'mint', price: 6.00 },
+                { id: 'peanut-butter', price: 5.75 }
+            ];
+
+            let orderSummaryHtml = '';
+            
+            items.forEach(item => {
+                const quantity = parseInt(document.getElementById(item.id + '-quantity').value) || 0;
+                totalPrice += item.price * quantity;
+                orderSummaryHtml += `
+                    <p>${item.id.charAt(0).toUpperCase() + item.id.slice(1)} Cupcake: $${item.price.toFixed(2)} x ${quantity} = $${(item.price * quantity).toFixed(2)}</p>
+                `;
+            });
+
+            document.getElementById('order-summary-items').innerHTML = orderSummaryHtml;
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+        }
+
+        // Update the order summary when quantity changes
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateOrderSummary);
+        });
+
+        // Submit function (Simple alert for now)
+        function submitOrder() {
+            alert('Your order has been submitted successfully!');
+        }
+
+        // Initial call to populate summary
+        window.onload = updateOrderSummary;
+    </script>
+
+</body>
+</html>

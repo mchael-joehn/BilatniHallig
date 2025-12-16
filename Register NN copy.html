@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f9f9f9 0%, #e7b307 50%, #ffc300 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #bf0f1e;
+            line-height: 1.6;
+        }
+
+        .registration-container {
+            background-color: #f9f9f9;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(191, 15, 30, 0.15), 0 0 20px rgba(221, 19, 36, 0.1);
+            padding: 50px;
+            width: 100%;
+            max-width: 520px;
+            text-align: center;
+            border: 2px solid #dd1324;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .registration-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #bf0f1e, #dd1324, #e7b307, #ffc300);
+        }
+
+        .registration-container h2 {
+            margin-bottom: 40px;
+            color: #bf0f1e;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #dd1324;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e7b307;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #bf0f1e;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #dd1324;
+            box-shadow: 0 0 12px rgba(221, 19, 36, 0.4);
+            transform: scale(1.02);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #ffc300;
+            opacity: 0.7;
+        }
+
+        .form-group input:invalid,
+        .form-group select:invalid,
+        .form-group textarea:invalid {
+            border-color: #bf0f1e;
+            box-shadow: 0 0 8px rgba(191, 15, 30, 0.3);
+        }
+
+        .contact-group {
+            display: flex;
+            gap: 15px;
+            align-items: stretch;
+        }
+
+        .contact-group select {
+            flex: 0 0 140px;
+            padding: 15px;
+        }
+
+        .contact-group input {
+            flex: 1;
+        }
+
+        .name-reminder,
+        .age-reminder {
+            font-size: 13px;
+            color: #e7b307;
+            margin-top: 8px;
+            font-style: italic;
+            text-align: left;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #bf0f1e 0%, #dd1324 100%);
+            color: #f9f9f9;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 195, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(191, 15, 30, 0.4);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #bf0f1e;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+            background-color: rgba(255, 195, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e7b307;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .registration-container {
+                padding: 30px;
+                max-width: 90%;
+                margin: 20px;
+            }
+            .registration-container h2 {
+                font-size: 28px;
+            }
+            .contact-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .contact-group select {
+                flex: none;
+            }
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px 16px;
+            }
+            .register-btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" maxlength="16" placeholder="Enter your full name" required>
+                <div class="name-reminder">Full name must be 16 characters max.</div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" maxlength="16" placeholder="Enter your last name" required>
+                <div class="name-reminder">Last name must be 16 characters max.</div>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday" name="birthday" required>
+                <div class="age-reminder">You must be 18 years or older to register.</div>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <div class="contact-group">
+                    <select id="countryCode" name="countryCode" required>
+                        <option value="+1">+1 (USA)</option>
+                        <option value="+44">+44 (UK)</option>
+                        <option value="+91">+91 (India)</option>
+                        <option value="+81">+81 (Japan)</option>
+                        <option value="+49">+49 (Germany)</option>
+                        <!-- Add more country codes as needed -->
+                    </select>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone number" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="homeAddress">Home Address</label>
+                <textarea id="homeAddress" name="homeAddress" rows="3" placeholder="Enter your home address" required></textarea>
+            </div>
+            <button type="submit" class="register-btn">Register</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const birthday = document.getElementById('birthday').value;
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const homeAddress = document.getElementById('homeAddress').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+            
+            // Check if fields are not null/empty
+            if (!fullName || !lastName || !birthday || !phoneNumber || !homeAddress) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Full name length check (max 16)
+            if (fullName.length > 16) {
+                errorMessage.textContent = 'Full name must be 16 characters max.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Last name length check (max 16)
+            if (lastName.length > 16) {
+                errorMessage.textContent = 'Last name must be 16 characters max.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Age validation (18+)
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 18) {
+                errorMessage.textContent = 'You must be 18 years or older to register.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Basic phone number validation (digits only, reasonable length)
+            const phoneRegex = /^\d{7,15}$/;
+            if (!phoneRegex.test(phoneNumber)) {
+                errorMessage.textContent = 'Please enter a valid phone number (7-15 digits).';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // If all validations pass, simulate registration (in a real app, send to server)
+            alert('Registration successful! (This is a demo)');
+        });
+    </script>
+</body>
+</html>
